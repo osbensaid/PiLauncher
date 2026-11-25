@@ -9,4 +9,5 @@ data class AppEntry(
     val banner: Drawable?,   // TV apps provide a wide 16:9 banner
     val icon: Drawable,      // phone apps only have a square icon
     val isLeanback: Boolean,
+    val tileColor: Int,      // background colour taken from the icon
 )

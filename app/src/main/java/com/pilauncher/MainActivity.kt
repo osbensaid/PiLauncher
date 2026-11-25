@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity() {
             onLongClick = { pos -> showAppOptions(pos) },
             onFocused = { app -> showOnShelf(app) },
         )
+        adapter.iconsOnly = repo.iconsOnly
         grid.layoutManager = GridLayoutManager(this, COLUMNS)
         grid.adapter = adapter
 
@@ -226,10 +227,14 @@ class MainActivity : AppCompatActivity() {
         val backdropLabel = getString(
             if (repo.showAppBackdrop) R.string.app_backdrop_on else R.string.app_backdrop_off
         )
+        val tileStyleLabel = getString(
+            if (repo.iconsOnly) R.string.tiles_icons_only else R.string.tiles_mixed
+        )
         val options = arrayOf(
             getString(R.string.choose_apps),
             getString(R.string.background),
             backdropLabel,
+            tileStyleLabel,
             getString(R.string.reset_order),
             getString(R.string.android_settings),
         )
@@ -244,10 +249,14 @@ class MainActivity : AppCompatActivity() {
                         if (!repo.showAppBackdrop) backdrop.setImageDrawable(null)
                     }
                     3 -> {
+                        repo.iconsOnly = !repo.iconsOnly
+                        adapter.iconsOnly = repo.iconsOnly
+                    }
+                    4 -> {
                         repo.saveOrder(emptyList())
                         reloadApps()
                     }
-                    4 -> startActivity(Intent(Settings.ACTION_SETTINGS))
+                    5 -> startActivity(Intent(Settings.ACTION_SETTINGS))
                 }
             }
             .show()

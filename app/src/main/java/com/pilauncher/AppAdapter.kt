@@ -16,6 +16,13 @@ class AppAdapter(
 
     val items = mutableListOf<AppEntry>()
 
+    /** When true every app uses the icon style, so all tiles look the same. */
+    var iconsOnly = false
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     /** Package of the app being moved, or null when not in move mode. */
     var movingPackage: String? = null
         private set
@@ -29,7 +36,6 @@ class AppAdapter(
         val banner: ImageView = view.findViewById(R.id.banner)
         val iconBox: View = view.findViewById(R.id.iconBox)
         val icon: ImageView = view.findViewById(R.id.icon)
-        val name: TextView = view.findViewById(R.id.name)
         val label: TextView = view.findViewById(R.id.label)
         val moveBorder: View = view.findViewById(R.id.moveBorder)
     }
@@ -66,6 +72,12 @@ class AppAdapter(
         holder.tile.outlineProvider = ViewOutlineProvider.BACKGROUND
         holder.tile.clipToOutline = true
 
+        // Icon fills most of the tile, with even space around it
+        holder.tile.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+            val pad = (v.height * 0.18f).toInt()
+            if (holder.icon.paddingTop != pad) holder.icon.setPadding(pad, pad, pad, pad)
+        }
+
         holder.tile.setOnClickListener {
             val pos = holder.bindingAdapterPosition
             if (pos != RecyclerView.NO_POSITION) onClick(pos)
@@ -97,15 +109,15 @@ class AppAdapter(
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val app = items[position]
-        if (app.banner != null) {
+        if (app.banner != null && !iconsOnly) {
             holder.banner.setImageDrawable(app.banner)
             holder.banner.visibility = View.VISIBLE
             holder.iconBox.visibility = View.GONE
         } else {
             holder.banner.visibility = View.GONE
             holder.iconBox.visibility = View.VISIBLE
+            holder.iconBox.setBackgroundColor(app.tileColor)
             holder.icon.setImageDrawable(app.icon)
-            holder.name.text = app.label
         }
         holder.label.text = app.label
         holder.label.alpha = if (holder.tile.isFocused) 1f else 0f

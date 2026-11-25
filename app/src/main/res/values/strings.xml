@@ -16,6 +16,8 @@
     <string name="colour_gradient">Colour gradient</string>
     <string name="app_backdrop_on">App picture behind tiles: On</string>
     <string name="app_backdrop_off">App picture behind tiles: Off</string>
+    <string name="tiles_mixed">Tile style: TV banners and icons</string>
+    <string name="tiles_icons_only">Tile style: Icons for all apps</string>
     <string name="reset_order">Reset app order</string>
     <string name="android_settings">Android settings</string>
     <string name="photo_permission_needed">Allow access to photos to choose a background</string>

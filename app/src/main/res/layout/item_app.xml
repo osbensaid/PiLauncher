@@ -23,31 +23,19 @@
             android:importantForAccessibility="no"
             android:scaleType="centerCrop" />
 
-        <LinearLayout
+        <!-- Used for apps without a TV banner: big icon on a colour taken from the icon -->
+        <FrameLayout
             android:id="@+id/iconBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:importantForAccessibility="no" />
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:textColor="#FFFFFFFF"
-                android:textSize="13sp" />
-        </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:importantForAccessibility="no"
+                android:scaleType="fitCenter" />
+        </FrameLayout>
 
         <View
             android:id="@+id/moveBorder"
