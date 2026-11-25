@@ -9,10 +9,20 @@ android {
 
     defaultConfig {
         applicationId = "com.pilauncher"
-        minSdk = 24
+        minSdk = 29
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
+    }
+
+    // Fixed key so every new build can update the installed app
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("pilauncher.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
 
     buildTypes {

@@ -8,10 +8,18 @@
     <string name="app_info">App info</string>
     <string name="uninstall">Uninstall</string>
     <string name="move_hint">Use the arrows to move the app, then press OK</string>
-    <string name="wallpaper">Wallpaper</string>
-    <string name="hidden_apps">Hidden apps</string>
+    <string name="choose_apps">Choose apps to show</string>
+    <string name="save">Save</string>
+    <string name="show_all">Show all</string>
+    <string name="background">Background</string>
+    <string name="choose_photo">Choose a photo</string>
+    <string name="colour_gradient">Colour gradient</string>
+    <string name="app_backdrop_on">App picture behind tiles: On</string>
+    <string name="app_backdrop_off">App picture behind tiles: Off</string>
     <string name="reset_order">Reset app order</string>
     <string name="android_settings">Android settings</string>
-    <string name="no_hidden_apps">No hidden apps</string>
-    <string name="tap_to_unhide">Select an app to show it again</string>
+    <string name="photo_permission_needed">Allow access to photos to choose a background</string>
+    <string name="no_photos">No photos found. Download one with Downloader or plug in a USB stick with pictures.</string>
+    <string name="setting_background">Setting background…</string>
+    <string name="photo_failed">Couldn’t use that photo. Try another one.</string>
 </resources>

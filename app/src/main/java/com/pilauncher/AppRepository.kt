@@ -2,13 +2,14 @@ package com.pilauncher
 
 import android.content.Context
 import android.content.Intent
+import java.io.File
 
-/** Finds installed apps and remembers the order, hidden apps and wallpaper. */
+/** Finds installed apps and remembers the order, hidden apps and background. */
 class AppRepository(private val context: Context) {
 
     private val prefs = context.getSharedPreferences("pilauncher", Context.MODE_PRIVATE)
 
-    fun loadApps(): List<AppEntry> {
+    fun loadApps(includeHidden: Boolean = false): List<AppEntry> {
         val pm = context.packageManager
         val found = LinkedHashMap<String, AppEntry>()
 
@@ -31,7 +32,7 @@ class AppRepository(private val context: Context) {
             }
         }
 
-        val hidden = hiddenPackages()
+        val hidden = if (includeHidden) emptySet() else hiddenPackages()
         val rank = savedOrder().withIndex().associate { it.value to it.index }
         return found.values
             .filter { it.packageName !in hidden }
@@ -48,21 +49,34 @@ class AppRepository(private val context: Context) {
     fun hiddenPackages(): Set<String> =
         prefs.getStringSet(KEY_HIDDEN, emptySet()).orEmpty().toSet()
 
-    fun hide(pkg: String) {
-        prefs.edit().putStringSet(KEY_HIDDEN, hiddenPackages() + pkg).apply()
+    fun setHidden(packages: Set<String>) {
+        prefs.edit().putStringSet(KEY_HIDDEN, packages).apply()
     }
 
-    fun unhide(pkg: String) {
-        prefs.edit().putStringSet(KEY_HIDDEN, hiddenPackages() - pkg).apply()
-    }
+    fun hide(pkg: String) = setHidden(hiddenPackages() + pkg)
 
     var wallpaperIndex: Int
         get() = prefs.getInt(KEY_WALLPAPER, 0)
         set(value) = prefs.edit().putInt(KEY_WALLPAPER, value).apply()
 
+    /** True when the background photo is used instead of a colour gradient. */
+    var usePhoto: Boolean
+        get() = prefs.getBoolean(KEY_USE_PHOTO, false)
+        set(value) = prefs.edit().putBoolean(KEY_USE_PHOTO, value).apply()
+
+    /** Show the selected app's picture faded behind the tiles. */
+    var showAppBackdrop: Boolean
+        get() = prefs.getBoolean(KEY_BACKDROP, true)
+        set(value) = prefs.edit().putBoolean(KEY_BACKDROP, value).apply()
+
+    /** The chosen photo is copied here, resized for the TV. */
+    fun wallpaperFile() = File(context.filesDir, "wallpaper.jpg")
+
     companion object {
         private const val KEY_ORDER = "order"
         private const val KEY_HIDDEN = "hidden"
         private const val KEY_WALLPAPER = "wallpaper"
+        private const val KEY_USE_PHOTO = "use_photo"
+        private const val KEY_BACKDROP = "app_backdrop"
     }
 }
